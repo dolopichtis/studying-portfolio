@@ -1,0 +1,21 @@
+body {
+        width: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: column;
+}
+#db, #text {
+        margin: 10px;
+        width: 500px;
+}
+#db {
+        height: 300px;
+}
+html {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+}

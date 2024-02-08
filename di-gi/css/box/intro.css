@@ -1,0 +1,149 @@
+#intro {
+	position: relative;
+	flex-grow: 1;
+	display: flex;
+}
+#intro article {
+        position: absolute;
+}
+#intro hr {
+	width: 61px;
+	height: 8px;
+}
+.item  button {
+	display: none;
+	z-index: 1;
+        margin: auto;
+}
+.item p, .item h1 {
+	text-align: center;
+        z-index: 1;
+}
+.item h1 {
+        margin-top: 25%;
+}
+.item p {
+	display: none;
+        margin-top: 25px;
+        margin-bottom: 30px;
+}
+.item h1::after {
+	content: "";
+	border-top: solid grey 8px;
+	width: 61px;
+	margin: auto;
+	margin-top: 7px;
+	display: block;
+}
+.item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+        width: 100%;
+}
+.item img{
+	filter: brightness(0.5);
+        height: -webkit-fill-available;
+}
+.owl-carousel.owl-loaded {
+	display: flex;
+        flex-direction: column;
+}
+.owl-item {
+	display: flex;
+}
+.owl-nav {
+	position: absolute;
+	display: none;
+	flex-direction: column-reverse;
+	align-items: stretch;
+	justify-content: center;
+	right: 0px;
+	top: 0px;
+	height: 100%;
+	width: 56px;
+	z-index: 1;
+}
+.owl-dots {
+        position: absolute;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-start;
+	bottom: 0px;
+	height: 30px;
+	width: 100%;
+}
+.owl-carousel button.owl-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 5px;
+	margin: 0 5px 0 5px;
+}
+.owl-carousel button.active {
+	background: none;
+}
+.arrow-left, .arrow-right {
+	display: block;
+	height: 56px;
+	margin: 0.5px;
+	background-image: url("../../images/logo/arrow-left.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.arrow-right {
+	background-image: url("../../images/logo/arrow-right.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+@media screen and (min-width: 640px){
+	.owl-nav { display: flex;}
+	.item button {display: block;}
+	.owl-dots {
+		height: 60px;
+        }
+        .item h1 {
+                margin-top: 12%;
+        }
+        .item h1::after {
+                display: block;
+        }
+}
+@media screen and (min-width: 768px){
+        .item img {
+                height: 465px;
+        }
+        .owl-dots {
+                height: 62px;
+        }
+        .item h1::after {
+                display: none;
+        }
+        .item p {
+                display: block;
+        }
+        p [role="details"] {
+                margin-bottom: initial;
+        }
+}
+@media screen and (min-width: 1024px) {
+        .item img {
+                height: 618px;
+        }
+        .owl-dots {
+                height: 90px;
+        }
+}
+@media screen and (min-width: 1440px){
+        .item img {
+                height: 668px;
+        }
+        .owl-nav {
+                width: 70px;
+        }
+        .arrow-left, .arrow-right {
+                height: 70px;
+        }
+}
+

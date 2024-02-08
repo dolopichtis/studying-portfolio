@@ -1,0 +1,243 @@
+html {
+        scroll-behavior: smooth;
+}
+body > p {
+        border: outset orange 7px;
+        position: sticky;
+        top: 0px;
+        background: antiquewhite;
+        z-index: 1;
+}
+a {
+        text-decoration: none;
+        font-weight: bold;
+        color: green;
+}
+a:after{
+        content: ' /';
+}
+a:first-child:before {
+        content: ' >> ';
+}
+a:last-child:after {
+        content: '';
+}
+h1 {
+        width: 100%;
+        text-align: center;
+}
+h1:after {
+        display: inline-block;
+        margin: 0 0 8px 20px;
+        height: 3px;
+        content: ' ';
+        text-shadow: none;
+        background-color: black;
+        width: 140px;
+}
+h1:before {
+        display: inline-block;
+        margin: 0 20px 8px 0;
+        height: 3px;
+        content: ' ';
+        text-shadow: none;
+        background-color: black;
+        width: 140px;
+}
+button, input[type=submit] {
+        width: 200px;
+        height: 50px;
+        border-style: none;
+        background: orange;
+        position: relative;
+        margin: 20px;
+}
+button:hover, input[type=submit]:hover {
+        background: white;
+        border: 2px solid orange;
+}
+button:before, input[type=submit]:before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-bottom: 20px solid white;
+        border-right: 20px solid orange;
+        width: 0;
+}
+button:hover:before, input[type=submit]:hover:before {
+        border-bottom: 22px solid white;
+        border-right: 22px solid orange;
+        bottom: -2px;
+        left: -2px;
+}
+button:hover:after, input[type=submit]:hover:after {
+        content: '';
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        border-bottom: 20px solid transparent;
+        border-right: 20px solid white;
+        width: 0;
+}
+input {
+        margin: 20px;
+}
+section, li {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+}
+ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+}
+li {
+        margin: 10px;
+}
+div {
+        width: 100px;
+        height: 100px;
+        display: block;
+        background: black;
+        margin: 10px;
+}
+.hidden {
+        visibility: hidden;
+}
+#fourth .red {
+        background: red;
+}
+#circle {
+        border-radius: 50px;
+}
+#red-circle {
+        border-radius: 50px;
+}
+h1, h2, p, span {
+        margin-top: 40px;
+        margin-bottom: 0px;
+}
+#fifth div {
+        background: yellow;
+}
+#sixth div {
+        height: 50px;
+        width: 50px;
+        background: red;
+}
+#seventh div {
+        height: 20px;
+        width: 50px;
+        background: green;
+}
+#eighth img {
+        width: 200px;
+        height: 300px;
+        border: 1px dotted red;
+}
+#tenth div {
+        display: none;
+        justify-content: center;
+        align-items: start;
+        flex-direction: column;
+        position: fixed;
+        margin: 0px;
+        top: 0px;
+        right: 0px;
+        width: auto;
+        height: auto;
+}
+#tenth p {
+        color: yellow;
+        margin-top: 0px;
+}
+#fifteen > div {
+        height: 200px;
+        width: 200px;
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+#fifteen > div > div {
+        height: 100px;
+        width: 100px;
+        background: red;
+}
+#fourteen button {
+        display: none;
+}
+#fourteen div {
+        height: 100px;
+        width: 100%;
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+}
+/*
+#fourteen {
+        position: sticky;
+        top: 70vh;
+        color: red;
+}
+#fourteen button {
+        background: red;
+}
+*/
+body > div {
+        width: 100vw;
+        height: 100vh;
+        opacity: 0.5;
+        background: grey;
+        position: fixed;
+        margin: 0;
+        top: 0;
+        left: 0;
+        background-image: url('https://cdna.artstation.com/p/assets/images/images/030/829/854/large/kavitha-radha-udayakumar-csb-colour02-copy.jpg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        z-index: 2;
+}
+#eighteen div {
+        background: white;
+}
+#eighteen input[title=drag-n-drop] {
+        width: 400px;
+        height: 300px;
+        background: orange;
+        box-sizing: border-box;
+        padding: 148px 50px;
+}
+#eighteen input[title=drag-entered] {
+        background: white;
+        border: dotted black 5px;
+        padding: 146px 46px;
+}
+#eighteen input[title=drag-n-drop]:hover {
+        border: dotted red 2px;
+        background: gold;
+        padding: 146px 48px;
+}
+#eighteen input[title=file-in]::file-selector-button {
+        display: none;
+}
+#eighteen input::file-selector-button {
+        width: 150px;
+        height: 20px;
+        color: red;
+        background: purple;
+}
+/*
+#eighteen input:hover input::file-selector-button {
+        background: red;
+        margin: 146px 48px;
+}

@@ -1,0 +1,137 @@
+#footer {
+	position: relative;
+	top: 30px;
+}
+#footer .width-container {
+	position: relative;
+	justify-content: center;
+	flex-direction: column;
+}
+#footer .logo {
+	position: absolute;
+	width: 230px;
+	height: 60px;
+	top: -30px;
+	padding-top: 0px;
+	z-index: 1;
+}
+#footer h2 {
+	text-align: center;
+	margin-top: 85px;
+}
+ul{
+	list-style-type: none;
+	padding-inline-start: unset;
+}
+ul[role=media] li {
+	margin: 8px 0;
+}
+address {
+	text-align: center;
+        margin-bottom: 62px;
+}
+address h3 {
+	text-transform: uppercase;
+}
+address li, address a {
+	text-decoration: none;
+	font-style: normal;
+}
+.up {
+	height: 86px;
+	text-align: center;
+	padding-top: 56px;
+	text-transform: uppercase;
+}
+.up:after {
+	content: url('../../images/logo/up.svg');
+	margin-top: 20px;
+	display: block;
+}
+@media screen and (min-width: 640px) {
+        #footer h2 {
+                text-align: start;
+        }
+	address {
+		width: 100%;
+                margin-bottom: 125px;
+	}
+	ul[role=media] {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+                margin: 40px 0 40px 0;
+	}
+	ul[role=media] li {
+		height: 64px;
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		align-items: center;
+		border-style: solid solid solid none;
+	}
+	ul[role=media] li:last-child {
+		border-style: solid none solid none;
+	}
+	ul[role=address] {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	ul[role=address] > li {
+		text-align: start;
+		width: 50%;
+	}
+	.up {
+		height: 42px;
+		display: flex;
+		justify-content: end;
+		align-items: center;
+		text-transform: uppercase;
+		padding-top: 0px;
+	}
+	.up:after {
+		content: url('../../images/logo/up.svg');
+		margin: 0 14px 0 23px;
+		display: inline;
+	}
+}
+@media screen and (min-width: 768px) {
+        #footer h2 {
+                margin-top: 114px;
+        }
+        ul[role='media'] {
+                margin-bottom: 69px;
+        }
+        address {
+                margin-bottom: 50px;
+        }
+}
+@media screen and (min-width:1024px) {
+	ul[role=address] > li {
+		width: 25%;
+	}
+        #footer h2 {
+                align-self: start;
+                margin-top: 156px;
+        }
+        address {
+                margin-bottom: 154px;
+        }
+        ul[role=media] {
+                margin: 80px 0 57px 0;
+        }
+}
+@media screen and (min-width: 1440px) {
+        #footer h2 {
+                text-align: start;
+        }
+	.up:after {
+		margin-right: 146px;
+	}
+        address {
+                margin-bottom: 158px;
+        }
+        ul[role=media] {
+                margin: 80px 0 80px 0;
+        }
+}

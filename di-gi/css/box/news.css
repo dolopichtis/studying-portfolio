@@ -1,0 +1,123 @@
+#news article[role=main] {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0px;/* fix in video */
+}
+#news article[role=main] h1 {
+        margin-top: 40px;
+}
+#news article[role=main] > hr {
+        width: 50px;
+	margin-top: 20px;
+        margin-bottom: 40px;
+}
+#news div[role="hilighter"] {
+	bottom: 0px;
+	background: white;
+	width: 100%;
+	border-radius: 0 0 10px 10px;
+        height: 40px;
+}
+#news article[role=card]:hover div[role=hilighter] {
+	bottom: 40px;
+	border-radius: 0px;
+	background: gray;
+}
+#news article[role=card]:hover a[role=details] {
+	display: block;
+	position: absolute;
+	z-index: 1;
+}	
+#news div[role=hilighter] h3{
+	margin: auto 0 auto 20px;
+}
+#news article[role="card"] {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+}
+#news article[role=card]:hover {
+	outline: solid 10px grey;
+	outline-offset: -10px;
+}
+#news article[role="card"] > img {
+	border-radius: 10px;
+}
+#news section[role="cardholder"] {
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+        height: 2716px;
+}
+@media screen and (min-width: 640px) {
+	#news section[role=cardholder] {
+		flex-wrap: wrap;
+		height: 1432px;
+		align-content: space-between;
+	}
+	#news .width-container {
+		display: block;
+	}
+        #news article[role=main] hr {
+                margin-bottom: 60px;
+                width: 100px;
+        }
+	/*reordering*/
+	#news article[role=card]:nth-child(2n - 1) {
+		order: 1;
+	}
+	#news article[role=card]:nth-child(2n) {
+		order: 2;
+	}
+}
+@media screen and (min-width: 768px) {
+	#news section[role=cardholder] {
+		align-content: space-evenly;
+	}
+        #news article[role=main] hr {
+                margin-bottom: 50px;
+                margin-top: 30px;
+        }
+}
+@media screen and (min-width: 1024px) {
+	#news section[role=cardholder] {
+		height: 1066px;
+		align-content: space-between;
+	}
+        #news article[role=main] hr {
+                margin-bottom: 96px;
+        }
+	#news article[role=card]:nth-child(3n-2) {
+		order: 1;
+	}
+	#news article[role=card]:nth-child(3n-1) {
+		order: 2;
+	}
+	#news article[role=card]:nth-child(3n) {
+		order: 3;
+	}
+}
+@media screen and (min-width: 1440px) {
+	#news section[role=cardholder] {
+		height: 784px;
+		align-content: space-between;
+	}
+        #news article[role=main] hr {
+                margin-bottom: 116px;
+                margin-top: 20px;
+        }
+	#news article[role=card]:nth-child(4n-3) {
+		order: 1;
+	}
+	#news article[role=card]:nth-child(4n-2) {
+		order: 2;
+	}
+	#news article[role=card]:nth-child(4n-1) {
+		order: 3;
+	}
+	#news article[role=card]:nth-child(4n) {
+		order: 4;
+	}
+}

@@ -1,0 +1,183 @@
+/* text styles for general sections (services, works, video, news. testimonial) */
+
+h3, a[role=details], blockquote, cite, strong, #footer h3 {
+        font-family: 'roboto-condensed';
+        font-weight: 700;
+}
+h2, p, #intro p, #footer h2, #footer a, .up {
+        font-family: 'roboto';
+        font-weight: 400;
+}
+
+h1 {
+        font-family:'roboto-condensed';
+        font-weight: 400;
+	font-size: 24px;
+        line-height: 28px;
+}
+h2 {
+	font-size: 20px;
+        line-height: 24px;
+}
+h3 {
+	font-size: 16px;
+        line-height: 18.75px;
+}
+#services h3 {
+        text-transform: uppercase;
+}
+p {
+        font-size: 16px;
+        line-height: 18px;
+}
+a[role=details] {
+        font-size: 16px;
+        line-height: 18.75px;
+        text-transform: uppercase;
+}
+p[role=details] {
+        font-family:'dosis';
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 18px;
+}
+blockquote, strong {
+        font-size: 24px;
+        line-height: 28px;
+}
+cite {
+        font-size: 20px;
+        line-height: 24px;
+}
+button {
+        font-family:'roboto';
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 18px;
+}
+/* text styles for individual sections (intro, promo, footer, up) */
+#intro h1{
+	font-size: 28px;
+	line-height: 28px;
+	text-transform: uppercase;
+}
+#intro p {
+        font-size: 18px;
+        line-height: 20px;
+}
+#promo h2 {
+        font-family:'roboto';
+        font-weight: 500;
+	font-size: 24px;
+        line-height: 24px;
+}
+#promo p {
+        font-family:'dosis';
+        font-weight: 300;
+        font-size: 16px;
+        line-height: 18px;
+}
+#footer h2 {
+        font-size: 20px;
+        line-height: 22px;
+}
+#footer h3 {
+        font-size: 18px;
+        line-height: 21px;
+}
+
+#footer a {
+        font-size: 16px;
+        line-height: 20px;
+}
+.up {
+        font-size: 16px;
+        line-height: 18.75px;
+}
+/* media quaries */
+@media screen and (min-width: 640px) {
+        h1 {
+                font-size: 48px;
+                line-height: 56.25px;
+        }
+        h2 {
+                font-size: 24px;
+                line-height: 26px;
+        }
+        p {
+                font-size: 18px;
+                line-height: 24px;
+        }
+        blockquote, strong {
+                font-size: 32px;
+                line-height: 37.5px;
+        }
+	#intro h1 {
+		font-size: 60px;
+		line-height: 60px;
+	}
+        #footer h2 {
+                font-size: 24px;
+                line-height: 26px;
+        }
+        #footer h3 {
+        }
+        #footer a {
+        }
+        .up {
+        }
+}
+@media screen and (min-width: 768px) {
+        #footer h2 {
+                font-size: 32px;
+                line-height: 32px;
+        }
+        h1 {
+                font-size: 36px;
+                line-height: 38px;
+        }
+}
+@media screen and (min-width: 1024px) {
+	#intro h1 {
+		font-size: 84px;
+		line-height: 84px;
+	}
+        #promo h2 {
+                font-size: 18px;
+                line-height: 18px;
+        }
+        #footer h2 {
+                font-size: 36px;
+                line-height: 32px;
+        }
+}
+@media screen and (min-width: 1440px) {
+	#intro h1 {
+		font-size: 96px;
+		line-height: 96px;
+	}
+        #intro p {
+                font-size: 24px;
+                line-height: 26px;
+        }
+        #promo h2 {
+                font-size: 24px;
+                line-height: 32px;
+        }
+        blockquote, strong {
+                font-size: 36px;
+                line-height: 42px;
+        }
+        #footer h2 {
+                font-size: 24px;
+                line-height: 32px;
+        }
+        #footer h3 {
+                font-size: 16px;
+                line-height: 18.75px;
+        }
+        #footer a {
+                font-size: 12px;
+                line-height: 20px;
+        }
+}

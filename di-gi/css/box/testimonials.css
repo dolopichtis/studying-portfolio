@@ -1,0 +1,37 @@
+#testimonial .owl-nav {
+	display: none;
+}
+#testimonial .owl-dots {
+        position: initial;
+}
+blockquote::before {
+        content: url('../../images/logo/quote.svg');
+        display: block;
+        text-align: center;
+        font-size: 100px;
+        margin-bottom: 75px;
+}
+blockquote {
+        text-align: center;
+        font-weight: normal;
+        margin: 60px 0 80px 0;
+}
+cite {
+        font-style: normal;
+        margin-bottom: 40px;
+}
+@media screen and (min-width: 640px) {
+        blockquote::before {
+                margin-bottom: 40px;
+        }
+}
+@media screen and (min-width: 768px) {
+        blockquote::before {
+                margin-bottom: 100px;
+        }
+}
+@media screen and (min-width: 1024px) {
+        cite {
+                margin-bottom: 80px;
+        }
+}

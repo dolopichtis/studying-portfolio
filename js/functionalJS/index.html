@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en, uk">
+        <head>
+                <title>my functional JS practice</title>
+                <link rel='stylesheet' type='text/css' href='fjs.css'>
+        </head>
+        <body>
+                <h2>Assigment:</h2>
+                <p>Create a functional JS script that takes CSV text, converts it to a DB object and replaces words in the given String with the data entry in the DB.
+                </br> </br> 
+                The architecture: two functions: the first one to converts the text to the DB and 'closure' of the DB object into itself, and then returns a second function, that replaces the words matching the DB with the DB record information.
+                </br>
+                </br>
+                The second result is demonstration of two different mechanisms: searching each word of the String in the DB (fast, but only for single-word DB entry) and then searching each double(or more)words DB entry in the String. The double-words DB was created from the base DB.</p>
+                <h3>Sample DB to copy-paste:</h3>
+                <p>48.30,32.16,Кропивницький,200000,</br>
+                44.38,34.33,Алушта,31440,</br>
+                49.46,30.17,Біла Церква,200131,</br>
+                49.54,28.49,Бердичів,87575,#некоммент</br>
+                </br>
+                #</br>
+                46.49,36.58,#Бердянськ,121692,</br>
+                49.15,28.41,Вінниця,356665,</br>
+                #45.40,34.29,Джанкой,43343,</br>
+                </br>
+                # в цьому файлі три рядки-коментаря :)</p>
+                <textarea id='db' cols='50' placeholder='Enter CSV-newLine text for creating a DB, format: X,Y,CityName,population,other info. Use # at the start of line to comment it'></textarea>
+                <input id='text' placeholder='Enter the String to be changed by DB (replace all city occurrances with DB data)'>
+                <h3 id='print'></h3>
+                <h3 id='print2wdb'></h3>
+                <script src='fjs.js'></script>
+        </body>
+</html>
+

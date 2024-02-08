@@ -1,0 +1,164 @@
+:root {
+        --blue: rgba(43, 64, 116, 1);
+        --red: rgba(249, 246, 299, 1);
+        --white: white;
+        --grey: rgba(74, 74, 74, 1);
+        --green: rgba(126, 191, 132, 1);
+        --video-p-color: rgba(155, 155, 155, 1);
+        --service-p-color: rgba(121, 121, 121, 1);
+}
+hr {
+        background: var(--blue);
+        border: var(--blue);
+}
+section:is(#header, #intro, #promo, #footer){
+	background: var(--blue);
+}
+section:is(#services, #video, #testimonial) {
+	background: var(--white);
+}
+section:is(#news) {
+	background: var(--red);
+}
+section:is(#works) {
+	background-image: linear-gradient(var(--blue), var(--white));
+}
+.logo {
+        background: var(--blue);
+}
+.menu_btn {
+	background: var(--white);
+	border: var(--blue) 1px solid;
+}
+.menu {
+        background: var(--gray);
+	box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+}
+.menu_item {
+	color: var(--red);
+}
+.menu_item:hover {
+	background: white;
+}
+button {
+	background: var(--blue);
+	color: var(--white);
+}
+.item p, .item h1 {
+        color: var(--white);
+}
+.owl-carousel button.owl-dot {
+        background: var(--white);
+}
+.owl-carousel button.active {
+        border: solid 2px var(--white);
+}
+.arrow-left, .arrow-right {
+        background: var(--white);
+}
+.arrow-right {
+        background: var(--blue);
+}
+#promo button {
+	background: var(--red);
+	color: var(--blue);
+}
+#promo h2, #promo p {
+        color: var(--white);
+}
+h1 {
+        color: var(--blue);
+}
+h2 {
+        color: var(--grey);
+}
+h3 {
+        color: var(--grey);
+}
+#services p[role=details] {
+        color: var(--video-p-color);
+}
+#services p {
+        color: var(--service-p-color);
+}
+#services a {
+        color: var(--blue);
+}
+#services article[role=card] {
+        border-color: var(--red);
+	border-top: 1px solid var(--red);
+}
+#services article[role=card]:last-child {
+	border-bottom: 1px solid var(--red);
+}
+#works h1 {
+        color: var(--white);
+}
+#works h3 {
+        color: var(--blue);
+}
+#works hr {
+        background: var(--white);
+	border: var(--white);
+}
+#video h1 {
+        color: var(--grey);
+}
+#video p {
+        color: var(--video-p-color);
+}
+#news h1 {
+        color: var(--grey);
+}
+blockquote {
+        color: var(--grey);
+}
+blockquote strong {
+        color: var(--blue);
+}
+cite {
+        color: var(--grey);
+}
+#testimonial .owl-dot.active {
+	border: solid 2px var(--blue);
+	background: var(--white);
+}
+#testimonial .owl-dot {
+	background: var(--blue);
+}
+#testimonial .item {
+	background: var(--white);
+}
+#footer h2 {
+        color: var(--white);
+}
+ul[role=media] li {
+        border: 1px var(--green);
+}
+#footer h3, #footer a {
+        color: var(--red);
+}
+.up {
+        color: var(--grey);
+}
+@media screen and (min-width: 640px) {
+	#services article[role=card] {
+		border-left: solid 1px var(--red);
+	}
+}
+@media screen and (min-width: 1024px) {
+	#services article[role=card]:nth-child(2n+2) {
+		border-right: solid 1px var(--red);
+	}
+	section:is(#works) {
+		background-image: linear-gradient(var(--blue), var(--white)); 
+	}
+}
+@media screen and (min-width: 1440px) {
+	#services article[role=card]:nth-child(4n+1) {
+		border-left: solid 1px var(--red);
+	}
+}
+.up {
+	background: var(--red);
+}

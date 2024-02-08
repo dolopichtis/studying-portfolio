@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en, uk">
+        <head>
+                <title>my JS practice</title>
+                <link rel="stylesheet" type="text/css" href="js.css">
+        </head>
+        <body>
+                <p>
+                        <a href="#first">Task #1</a>
+                        <a href="#second">Task #2</a>
+                        <a href="#third">Task #3</a>
+                        <a href="#fourth">Task #4</a>
+                        <a href="#fifth">Task #5</a>
+                        <a href="#sixth">Task #6</a>
+                        <a href="#seventh">Task #7</a>
+                        <a href="#eighth">Task #8</a>
+                        <a href="#nineth">Task #9</a>
+                        <a href="#tenth">Task #10</a>
+                        <a href="#eleven">Task #11</a>
+                        <a href="#twelve">Task #12</a>
+                        <a href="#thirteen">Task #13</a>
+                        <a href="#fourteen">Task #14</a>
+                        <a href="#fifteen">Task #15</a>
+                        <a href="#sixteen">Task #16</a>
+                        <a href="#seventeen">Task #17</a>
+                        <a href="#eighteen">Task #18</a>
+                </p>
+                <section id="first">
+                        <h1>Task # 1 #</h1>
+                        <ul>
+                                <li>
+                                        <div id="none"></div>
+                                        <button onclick="displayNone()">display none</button>
+                                </li>
+                                <li>
+                                        <div id="remove"></div>
+                                        <button onclick="remove()">remove</button>
+                                </li>
+                                <li>
+                                        <div id="hide"></div>
+                                        <button onclick="hide()">hide</button>
+                                </li>
+                        </ul>
+                </section>
+                <section id="second">
+                        <h1>Task # 2 #</h1>
+                        <div id="show-hide"></div>
+                        <button onclick="showHide()">show and hide</button>
+                </section>
+                <section id="third">
+                        <h1>Task # 3 #</h1>
+                        <ul>
+                                <li>
+                                        <div></div>
+                                </li>
+                                <li>
+                                        <div></div>
+                                </li>
+                                <li>
+                                        <div></div>
+                                </li>
+                                <li>
+                                        <div></div>
+                                </li>
+                                <li>
+                                        <div></div>
+                                </li>
+                        </ul>
+                        <button onclick="hideAll()">hide/show all</button>
+                </section>
+                <section id="fourth">
+                        <h1>Task # 4 #</h1>
+                        <ul>
+                                <li id="one">
+                                        <div></div>
+                                        <h2>just div; h2 (Task header is h1 ;)</h2>
+                                </li>
+                                <li id="two">
+                                        <div class="red"></div>
+                                        <h3>div with class red; h3</h3>
+                                </li>
+                                <li id="three">
+                                        <div id="circle"></div>
+                                        <p class="red">div circle; paragragh class=red</p>
+                                </li>
+                                <li id="four">
+                                        <div id="red-circle" class="red"></div>
+                                        <span>div id=red-circle class=red; span</span>
+                                </li>
+                        </ul>
+                        <label for="css-selector">You can add CSS selector into "input" to hide/show this element(s) if they exist in fourth section</label>
+                        <input id="css-selector" name="input-css-selector"></input>
+                        <button onclick="removeSelector()">hide/show</button>
+                </section>
+                <section id="fifth">
+                        <h1>Task # 5 #</h1>
+                        <div onclick="alertHide()"></div>
+                </section>
+                <section id="sixth">
+                        <h1>Task # 6 #</h1>
+                        <div class="hidden"></div>
+                        <button onmouseover="showOver()" onmouseout="hideOut()">show red rectangle</button>
+                </section>
+                <section id="seventh">
+                        <h1>Task # 7 #</h1>
+                        <div class="hidden"></div>
+                        <input id="showRect" onfocus="showRect()" oninput="hideRect()">
+                </section>
+                <section id="eighth">
+                        <h1>Task # 8 #</h1>
+                        <img src="" alt="image from url in input">
+                        <input id="imgURL">
+                        <button>show img</button>
+                </section>
+                <section id="nineth">
+                        <h1>Task # 9 #</h1>
+                        <label for='imgsUrl'>add imgs URLs and press btn to show imgs</label>
+                        <textarea id="imgsUrl">
+                        </textarea>
+                        <button>show images</button>
+                        <ul>
+                        </ul>
+                </section>
+                <section id='tenth'>
+                        <h1>Task # 10 #</h1>
+                        <div>
+                                <p title="x"> </p>
+                                <br>
+                                <p title="y"> </p>
+                        </div>
+                        <button>try me ;)</button>
+                </section>
+                <section id='eleven'>
+                        <h1>Task # 11 #</h1>
+                        <button>are you ready?</button>
+                </section>
+                <section id='twelve'>
+                        <h1>Task # 12 #</h1>
+                        <button>where are you? big brother watching you :D</button>
+                </section>
+                <section id='thirteen'>
+                        <h1>Task # 13 #</h1>
+                        <h1 contenteditable='true' oninput='saveStorage(localStorage)'>Hi, you can write here</h2>
+                        <h2 contenteditable='true' onblur='saveStorage(document.cookie)'>Hi, you can write here</h2>
+                        <h3 contenteditable='true' onblur='saveStorage(sessionStorage)'>Hi, you can write here</h2>
+                </section>
+                <section id='fifteen'>
+                        <h1>Task # 15 #</h1>
+                        <div>
+                                <div>
+                                </div>
+                        </div>
+                </section>
+                <section id='sixteen'>
+                        <h1>Task # 16 #</h1>
+                        <button>block content</button>
+                </section>
+                <section id='seventeen'>
+                        <h1>Task # 17 #</h1>
+                        <form><input type="submit" value="GO"></form>
+                </section>
+                <section id='eighteen'>
+                        <h1>Task # 18 #</h1>
+                        <h2>No files selected</h2>
+                        <input type="file" title="drag-n-drop" multiple>
+                </section>
+                <section id='fourteen'>
+                                <h1>Task # 14 #</h1>
+                        <div>
+                                <button onclick="scrolling()">Up</button>
+                        </div>
+                </section>
+                <script src="js.js"></script>
+        </body>
+</html>
+

@@ -1,0 +1,12 @@
+@font-face {
+	font-family: roboto;
+	src: url('../font/Roboto-Regular.ttf');
+}
+@font-face {
+	font-family:'roboto-condensed';
+	src: url('../font/RobotoCondensed-Regular.ttf');
+}
+@font-face {
+	font-family:'dosis';
+	src: url('../font/Dosis-Regular.ttf');
+}

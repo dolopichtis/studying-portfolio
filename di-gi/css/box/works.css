@@ -1,0 +1,93 @@
+#works .width-container {
+	flex-direction: column;
+}
+#works h1 {
+	margin-top: 20px; 
+	margin-bottom: 0px;
+}
+#works hr {
+	width: 50px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+#works img {
+	border-radius: 5px;
+}
+#works section[role=cardholder] {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	flex-direction: column;
+	margin-bottom: 80px;
+}
+#works article[role=card] {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	position: relative;
+}
+#works article[role=card] > h3 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#works div[role=hilighter] {
+	display: none;
+	position: absolute;
+	width: 242px;
+	height: 218px;
+	border-radius: 5px;
+	background: rgba(249, 246, 229, 1);
+	opacity: .8;
+	margin: 10px;
+}
+#works article[role=card]:hover div[role=hilighter] {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+#works div[role=hilighter] > a {
+	margin: 7px;
+}
+@media screen and (min-width: 640px) {
+        #works h1 {
+                margin-top: 40px; 
+        }
+        #works article[role=card] {
+                width: 518px;
+        }
+        #works article[role=card] img, #works article[role=card] picture {
+                width: inherit;
+        }
+        #works hr {
+                width: 100px;
+        }
+}
+@media screen and (min-width: 768px) {
+        #works h1 {
+                margin-top: 80px; 
+        }
+        #works article[role=card] img, #works article[role=card] picture {
+                width: initial;
+        }
+        #works section[role=cardholder] {
+                flex-direction: row;
+        }
+        #works article[role=card] {
+                margin-right: 11px;
+                margin-left: 11px;
+                width: initial;
+        }
+        #works hr {
+                margin-bottom: 80px;
+        }
+}
+@media screen and (min-width: 1024px) {
+        #works section[role=cardholder] {
+                width: 860px;
+        }
+}
+@media screen and (min-width: 1440px) {
+        #works section[role=cardholder] {
+                flex-wrap: nowrap;
+        }
+}

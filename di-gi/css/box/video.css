@@ -1,0 +1,90 @@
+#video .width-container {
+	display: grid;
+        margin-top: 20px;
+}
+img[role="video"] {
+	max-width: 100%;
+}
+#video button {
+	margin: 40px auto 40px auto;
+	width: 230px;
+	height: 60px;
+	text-transform: uppercase;
+}
+#video article[role="main"] h1 {
+	margin-bottom: 0px;
+	margin-top: 40px;
+}	
+#video article[role="main"] p {
+	display: flex;
+	flex-direction: column;
+	/* @media <span> wrap-rules here */
+}
+#video hr {
+	width: 45px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+#video img {
+	width: 518px;
+	margin: auto;
+}
+@media screen and (min-width: 640px) {
+	#video hr {
+		width: 88px;
+	}
+}
+@media screen and (min-width: 768px) {
+	#video .width-container {
+		grid-template-columns: 1fr 2fr;
+	}
+	#video article[role="main"] {
+		margin-left: 30px;
+	}
+	#video button {
+		grid-column: 2;
+		margin: 0px 0 40px 0;
+	}
+	#video h1 {
+		text-align: start;
+	}
+        #video hr {
+                margin-bottom: 20px;
+                margin-left: 0px;
+        }
+}
+@media screen and (min-width: 1024px) {
+	#video hr {
+		margin-top: 15px;
+		margin-bottom: 19px;
+		width: 100px;
+	}
+	#video .width-container {
+		grid-template-columns: 401px 2fr;
+	}
+	#video article[role="main"] {
+		margin-left: 60px;
+	}
+	#video img {
+		grid-row-start: 1;
+		grid-row-end: 3;
+	}
+	#video button {
+		margin-left: 60px;
+	}
+@media screen and (min-width: 1440px) {
+	#video article[role="main"] > hr {
+		margin-top: 15px;
+		margin-bottom: 19px;
+		width: 113px;
+	}
+	#video article[role="main"] {
+		margin-left: 100px;
+	}
+        #video p {
+                width: 506px;
+        }
+	#video button {
+		margin-left: 100px;
+	}
+}
