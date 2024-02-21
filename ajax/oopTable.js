@@ -154,7 +154,7 @@ class Table {
                 inputRowFormCell.appendChild(addItemForm);
                 inputRow.appendChild(inputRowFormCell);
                 for (let inputConfig of this.#config.columns) {
-                        let inputCell = this.createInputCell(inputConfig, isEdit);
+                        let inputCell = this.#createInputCell(inputConfig, isEdit);
                         inputRow.appendChild(inputCell);
                 }
                 // UI btnCell
