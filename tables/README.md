@@ -1,6 +1,6 @@
 # Abstract
 
-This is the realization of the third part of the second practical assignment of the front-end course of [SH++ school](https://programming.org.ua)
+This is the realization of the third assignment of the front-end course of [SH++ school](https://programming.org.ua)
 The basic idea is to creating simple table rendering JS library. 
 
 One can watch the page here: <https://dolopichtis.github.io/studying-portfolio/tables/>

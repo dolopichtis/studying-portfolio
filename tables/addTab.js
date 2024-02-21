@@ -12,12 +12,12 @@ function DataTable(config, data) {
         for (let row of data) {
                 html2add += `<tr><td>${++count}</td>`;
                 for ( let cell of config.columns) { 
-                        html2add += `<td>${row[cell.value]}</td>`;
+                        html2add += (row[cell.value] === undefined) ? '<td>-</td>' : `<td>${row[cell.value]}</td>`;
                 }
                 html2add += '</tr>';
         }
         html2add  += '</tbody> </table>';
-        
+
         // rendering table
         const target = document.querySelector(config.parent);
         if(target !== null){
@@ -34,11 +34,11 @@ function DataTable(config, data) {
 }
 function sortData(column, config, data, isSorted) {
         let isLow = isSorted ? -1 : 1;
-                data.sort( (item1, item2) => {
-                        if (item1[column].toString().toLowerCase() > item2[column].toString().toLowerCase()) {return -1 * isLow;}
-                        if (item1[column].toString().toLowerCase() < item2[column].toString().toLowerCase()) {return 1 * isLow;}
-                        return 0;
-                });
+        data.sort( (item1, item2) => {
+                if (item1[column].toString().toLowerCase() > item2[column].toString().toLowerCase()) {return -1 * isLow;}
+                if (item1[column].toString().toLowerCase() < item2[column].toString().toLowerCase()) {return 1 * isLow;}
+                return 0;
+        });
         DataTable(config, data); 
 }
 const config1 = {
