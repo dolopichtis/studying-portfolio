@@ -12,9 +12,27 @@ body {
 .changeUI {
         width: 75px;
 }
+input[type=color] {
+        display: block;
+        margin: auto;
+}
 button {
         display: block;
         margin: auto;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        background: yellow;
+        margin: 4px;
+}
+button[name=del] {
+        background: red;
+}
+button[name=add] {
+        background: green;
+}
+button[name=edit] {
+        background: yellow;
 }
 img {
         margin: auto;

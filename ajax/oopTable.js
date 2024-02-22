@@ -136,41 +136,33 @@ class Table {
                         }
                         // UI btnCell (change and del)
                         if (this.#hasInputConfig()) {// if hasInputConfig
-                                let btnCell = this.#createBtnCell(itemsName, id);
+                                let btnCell = this.#createBtnCell(itemsName, id, rowCount);
                                 bodyRow.appendChild(btnCell);
                         }
                         body.appendChild(bodyRow);
                 }
                 return body;
         }
-        #createInputRow(itemsName, isEdit = false) {
+        #createInputRow(itemsName, id = false) {//todo id == isEdit refactor (remove isEdit and replace it to id)
                 let addItemForm = document.createElement('form');
-                addItemForm.setAttribute('id', `${ isEdit ? 'editItemForm' : 'addItemForm' }`);
+                addItemForm.setAttribute('id', `${ id ? `${id}editItemForm` : 'addItemForm' }`);
                 let inputRow = document.createElement('tr');
-                if (!isEdit) {
+                if (!id) {
                         inputRow.classList.add('hidden');
                 }
                 let inputRowFormCell = document.createElement('td');
                 inputRowFormCell.appendChild(addItemForm);
                 inputRow.appendChild(inputRowFormCell);
                 for (let inputConfig of this.#config.columns) {
-                        let inputCell = this.#createInputCell(inputConfig, isEdit);
+                        let inputCell = this.#createInputCell(inputConfig, id);
                         inputRow.appendChild(inputCell);
                 }
                 // UI btnCell
-                let addNewBtnCell = this.#createBtnInputCell(addItemForm, isEdit, itemsName);
+                let addNewBtnCell = this.#createBtnInputCell(addItemForm, itemsName, id);
                 inputRow.appendChild(addNewBtnCell);
                 return inputRow;
-                function catchInputs (data, element) {
-                        if (element.type === 'submit' || element.type === 'button') {
-                                return data;
-                        }
-                        let elem = (element.type === 'number') ? Number(element.value) : element.value; 
-                        data[element.name] = element.type === 'number' ? Number(element.value) : element.value;
-                        return data;
-                }
         }
-        #createInputCell(inputConfig, isEdit) {
+        #createInputCell(inputConfig, id) {
                         let inputCell = document.createElement('td');
                         let subInputs = inputConfig.input.length ? inputConfig.input.length : 1;
                         for (let i = 0; i < subInputs; i++) {
@@ -178,9 +170,9 @@ class Table {
                                 let attributes = subInputs > 1 ? inputConfig.input[i] : inputConfig.input;
                                 let type = attributes.type;
                                 if (type === 'select') {
-                                        input = this.#selectInput(attributes, isEdit);
+                                        input = this.#selectInput(attributes, id);
                                 }
-                                input.setAttribute('form', `${ isEdit ? 'editItemForm' : 'addItemForm' }`);
+                                input.setAttribute('form', `${ id ? `${id}editItemForm` : 'addItemForm' }`);
                                 input.setAttribute('required', true);
                                 if (type === 'color') {
                                         input.value =  '#' + Math.floor(Math.random()*16777215).toString(16);// add some diff.style, than black color
@@ -192,30 +184,28 @@ class Table {
                                                 input.setAttribute(attribute, 'text');
                                                 continue;
                                         }
-                                        if (attributes[attribute] === 'date') {
-                                                input.setAttribute(attribute, 'datetime-local');
-                                                continue;
-                                        }
                                         input.setAttribute(attribute, attributes[attribute]);
                                 }
                                 inputCell.appendChild(input);
                         }
                 return inputCell;
         }
-        #createBtnInputCell(addItemForm, isEdit, itemsName) {
+        #createBtnInputCell(addItemForm, itemsName, id = false) {
                 let addNewBtnCell = document.createElement('td');
                 let addBtn = document.createElement('button');
                 addBtn.setAttribute('type', 'submit');
-                addBtn.setAttribute('form', `${isEdit ? 'editItemForm' : 'addItemForm'}`);
-                let addBtnItemName = `${itemsName[itemsName.length-1].slice(0,-1)}`;
-                addBtn.innerHTML = `${isEdit ? 'edit' : 'add' } new ${addBtnItemName}`;
+                addBtn.setAttribute('form', `${ id ? `${id}editItemForm` : 'addItemForm'}`);
+                addBtn.setAttribute('name', `${ id ? 'edit' : 'add'}`);
+                //let addBtnItemName = `${itemsName[itemsName.length-1].slice(0,-1)}`;
+                //addBtn.innerHTML = `${ id ? 'edit' : 'add' } new ${addBtnItemName}`;
                 addItemForm.onsubmit = (e) => {
                         e.preventDefault();
                         // TODO validate
-                        const rowData = Array.from(addItemForm.elements);
-                        const data = rowData.reduce(catchInputs, {});
+                        // id for edit
+                        const formInputs = Array.from(addItemForm.elements);
+                        const data = formInputs.reduce(catchInputs, {});
                         console.log(data);
-                        this.#changeData(false, JSON.stringify(data));
+                        this.#changeData(id, JSON.stringify(data));
                 }
                 addNewBtnCell.appendChild(addBtn);
                 return addNewBtnCell;
@@ -236,7 +226,7 @@ class Table {
                         input.setAttribute('placeholder', inputConfig.title);
                 }
         }
-        #selectInput(attributes, isEdit) {
+        #selectInput(attributes, id) {//todo value form id for create
                 let select = document.createElement('select');
                 let optionDefault = document.createElement('option');
                 optionDefault.setAttribute('value', `choose ${attributes.name}`);// todo in validation this is a not valid value
@@ -250,20 +240,29 @@ class Table {
                 }
                 return select;
         }
-        #createBtnCell(itemsName, id) {
+        #createBtnCell(itemsName, id, rowCount) {
                 let btnCell = document.createElement('td');
                 btnCell.setAttribute('class', 'changeUI');
                 let delBtn = document.createElement('button');
                 let rowName = `${itemsName[itemsName.length-1].slice(0,-1)}`;
-                delBtn.innerHTML = `delete ${rowName}`;
+                delBtn.setAttribute('name', 'del');
+                delBtn.innerHTML = '-';//`delete ${rowName}`; TODO
                 let changeBtn = document.createElement('button');
-                changeBtn.innerHTML = `change ${rowName}`;
+                changeBtn.setAttribute('name', 'edit');
+                changeBtn.innerHTML = '*';//`change ${rowName}`; TODO
                 delBtn.addEventListener('click', () => {this.#changeData(id, false)});// id = itemID, data = false idData = data
-                changeBtn.addEventListener('click', () => {this.#changeData(id, 'json data from inputs')});// id = itemID, data = false idData = data
+                changeBtn.addEventListener('click', () => {this.#changeRowToInput(id, rowCount, itemsName)});// id = itemID, data = false idData = data
                 btnCell.appendChild(delBtn);
                 btnCell.appendChild(changeBtn);
                 return btnCell;
                 // add row to body
+        }
+        #changeRowToInput(id, rowCount, itemsName){
+                alert('id: ' + id);
+                alert('#: ' + rowCount);
+                const inputRow = this.#createInputRow(itemsName, id);
+                let replaceTarget = this.#table.rows[rowCount + 1];
+                let replacement = replaceTarget.parentElement.replaceChild(inputRow, replaceTarget);
         }
         #createHeadTable() {
                 let head = document.createElement('thead');
