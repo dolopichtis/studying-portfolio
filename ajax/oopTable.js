@@ -158,36 +158,40 @@ class Table {
                         inputRow.appendChild(inputCell);
                 }
                 // UI btnCell
-                let addNewBtnCell = this.#createBtnInputCell(addItemForm, itemsName, id);
-                inputRow.appendChild(addNewBtnCell);
+                let btnCell = this.#createBtnInputCell(addItemForm, itemsName, id);
+                inputRow.appendChild(btnCell);
                 return inputRow;
         }
         #createInputCell(inputConfig, id) {
-                        let inputCell = document.createElement('td');
-                        let subInputs = inputConfig.input.length ? inputConfig.input.length : 1;
-                        for (let i = 0; i < subInputs; i++) {
-                                let input = document.createElement('input');
-                                let attributes = subInputs > 1 ? inputConfig.input[i] : inputConfig.input;
-                                let type = attributes.type;
-                                if (type === 'select') {
-                                        input = this.#selectInput(attributes, id);
-                                }
-                                input.setAttribute('form', `${ id ? `${id}editItemForm` : 'addItemForm' }`);
-                                input.setAttribute('required', true);
-                                if (type === 'color') {
-                                        input.value =  '#' + Math.floor(Math.random()*16777215).toString(16);// add some diff.style, than black color
-                                }
-                                this.#setPlaceholder(input, attributes, inputConfig);
-                                for ( let attribute of Object.keys(attributes)) {
-                                        if (attribute === 'options') continue;
-                                        if (attributes[attribute] === 'select') {
-                                                input.setAttribute(attribute, 'text');
-                                                continue;
-                                        }
-                                        input.setAttribute(attribute, attributes[attribute]);
-                                }
-                                inputCell.appendChild(input);
+                let inputCell = document.createElement('td');
+                let subInputs = inputConfig.input.length ? inputConfig.input.length : 1;
+                for (let i = 0; i < subInputs; i++) {
+                        let input = document.createElement('input');
+                        let attributes = subInputs > 1 ? inputConfig.input[i] : inputConfig.input;
+                        let type = attributes.type;
+                        if (type === 'select') {
+                                input = this.#selectInput(attributes, id);
                         }
+                        if (type === 'color' && !id) {
+                                input.value =  '#' + Math.floor(Math.random()*16777215).toString(16);
+                        }
+                        if (id) {// if it is the Edit Row than set values to inputs from item data
+                                let itemData = this.#data.find( (item) => item[0] === id)[1];
+                                input.value = itemData[attributes.name];
+                        }
+                        input.setAttribute('form', `${ id ? `${id}editItemForm` : 'addItemForm' }`);
+                        input.setAttribute('required', true);
+                        this.#setPlaceholder(input, attributes, inputConfig);
+                        for ( let attribute of Object.keys(attributes)) {
+                                if (attribute === 'options') continue;
+                                if (attributes[attribute] === 'select') {
+                                        input.setAttribute(attribute, 'text');
+                                        continue;
+                                }
+                                input.setAttribute(attribute, attributes[attribute]);
+                        }
+                        inputCell.appendChild(input);
+                }
                 return inputCell;
         }
         #createBtnInputCell(addItemForm, itemsName, id = false) {
@@ -201,7 +205,6 @@ class Table {
                 addItemForm.onsubmit = (e) => {
                         e.preventDefault();
                         // TODO validate
-                        // id for edit
                         const formInputs = Array.from(addItemForm.elements);
                         const data = formInputs.reduce(catchInputs, {});
                         console.log(data);
@@ -210,6 +213,9 @@ class Table {
                 addNewBtnCell.appendChild(addBtn);
                 return addNewBtnCell;
 
+                /*
+                 * function for reduce
+                 */
                 function catchInputs(data, input) {
                         if (input.type === 'button' || input.type === 'submit') {
                                 return data;
@@ -226,7 +232,7 @@ class Table {
                         input.setAttribute('placeholder', inputConfig.title);
                 }
         }
-        #selectInput(attributes, id) {//todo value form id for create
+        #selectInput(attributes, id) {
                 let select = document.createElement('select');
                 let optionDefault = document.createElement('option');
                 optionDefault.setAttribute('value', `choose ${attributes.name}`);// todo in validation this is a not valid value
@@ -250,16 +256,14 @@ class Table {
                 let changeBtn = document.createElement('button');
                 changeBtn.setAttribute('name', 'edit');
                 changeBtn.innerHTML = '*';//`change ${rowName}`; TODO
-                delBtn.addEventListener('click', () => {this.#changeData(id, false)});// id = itemID, data = false idData = data
-                changeBtn.addEventListener('click', () => {this.#changeRowToInput(id, rowCount, itemsName)});// id = itemID, data = false idData = data
+                delBtn.addEventListener('click', () => {this.#changeData(id, false)});
+                changeBtn.addEventListener('click', () => {this.#changeRowToInput(id, rowCount, itemsName)});
                 btnCell.appendChild(delBtn);
                 btnCell.appendChild(changeBtn);
                 return btnCell;
                 // add row to body
         }
-        #changeRowToInput(id, rowCount, itemsName){
-                alert('id: ' + id);
-                alert('#: ' + rowCount);
+        #changeRowToInput(id, rowCount, itemsName){// TODO name --> replaceToInputRow
                 const inputRow = this.#createInputRow(itemsName, id);
                 let replaceTarget = this.#table.rows[rowCount + 1];
                 let replacement = replaceTarget.parentElement.replaceChild(inputRow, replaceTarget);
@@ -275,11 +279,11 @@ class Table {
                 for (let headElement of this.#config.columns) {
                         this.#constructHeadRow(headRow, headElement);
                 }
-                if (this.#hasInputConfig()) {// if hasInputConfig
+                if (this.#hasInputConfig()) {// if hasInputConfig add addButton
                         let changeTitle = document.createElement('th');
                         changeTitle.innerHTML = `change ${this.#config.apiURL.split('/')[this.#config.apiURL.split('/').length-1]}`;
                         let addNewItem = document.createElement('button');
-                        addNewItem.innerText = 'add new';
+                        addNewItem.innerText = 'add';
                         addNewItem.addEventListener('click', () => {
                                 let inputRow = document.querySelector('');
                                 if (inputRow.classList.contains('hidden')) {
@@ -291,7 +295,6 @@ class Table {
                         changeTitle.appendChild(addNewItem);
                         headRow.appendChild(changeTitle);
                 }
-                // add row to head
                 head.appendChild(headRow);
                 return head;
         }
@@ -318,6 +321,10 @@ class Table {
                 headRow.appendChild(headCell);
         }
 }
+
+
+
+
 const configProductsInput = {
         parent: '#productsTable',
         columns: [
@@ -336,12 +343,12 @@ const configProductsInput = {
                 },
                 {
                         title: 'color', 
-                        value: (product) => getColorLabel(product.color), // функцію getColorLabel вам потрібно створити
+                        value: (product) => getColorLabel(product.color),
                         input: { type: 'color', name: 'color' }
                 }, 
         ],
         apiURL: "https://mock-api.shpp.me/dkolomytsev/products"
-        //apiURL: "http://localhost:3000/products"
+        //apiURL: "http://localhost:3000/products" // mockoon
 };
 
 const configProducts = {
@@ -352,7 +359,6 @@ const configProducts = {
                 {title: 'Item color', value: (product) => getColorLabel(product.color)}, // функцію getColorLabel вам потрібно створити
         ],
         apiURL: "https://mock-api.shpp.me/dkolomytsev/products"
-        //apiURL: "http://localhost:3000/products"
 };
 function getColorLabel(color){
         return `<div style='width:20px; height:20px; background:${color}; border-radius: 10px; margin: auto'></div>`;
@@ -381,7 +387,9 @@ const table1 = new Table(configUsers);
 const table3 = new Table(configProductsInput);
 
 
-
+/*
+ * load CSS file
+ */
 function setCSS() {
         let head = document.getElementsByTagName('HEAD')[0];
         let cssLink = document.createElement('link');
