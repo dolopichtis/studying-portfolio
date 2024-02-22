@@ -5,9 +5,7 @@ body {
         align-items: center;
 }
 .hidden {
-        /*
         display: none;
-        */
 }
 .changeUI {
         width: 75px;
@@ -17,22 +15,21 @@ input[type=color] {
         margin: auto;
 }
 button {
-        display: block;
         margin: auto;
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
+        border-radius: 2px 2px 20%;
+        width: 80px;
+        height: 40px;
         background: yellow;
         margin: 4px;
 }
 button[name=del] {
-        background: red;
+        background: #fb975d;
 }
 button[name=add] {
-        background: green;
+        background: #badb9e;
 }
 button[name=edit] {
-        background: yellow;
+        background: #ebd066;
 }
 img {
         margin: auto;
@@ -52,10 +49,10 @@ table {
         border: 1px solid black;
         text-align: center;
         vertical-align: middle;
-        width: 100vw;
 }
 th, td {
         padding: 8px;
+        width: 200px;
 }
 tr {
         background: #333;
@@ -81,7 +78,9 @@ thead th {
         color: white;
 }
 td {
-        text-align: left;
+        text-align: center;
+        border: solid #f5f4f4;
+        border-width: 0 2px 0 2px;
 }
 th>div  {
         display: flex;

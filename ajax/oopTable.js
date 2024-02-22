@@ -1,14 +1,15 @@
 class Table {
         #data;
+        #inputRow;
         #config;
         #table;
         #head;
         #body;
-        #targetPlace;
-        #isBody;
+        #targetPlace;// were to place on DOM
+        #isBody;// for re-paint
         #isSorted;// for re-paint table "as it was" after data manipulation (del, add, change);
         #sortedID;// id of column ;) for that re-paint
-        #isSortDecrese;
+        #isSortDecrese;// sort dirrection
         constructor(config, data) {
                 this.#config = config;
                 this.isBody = false;
@@ -16,6 +17,7 @@ class Table {
                 this.#config.apiurl = config.apiURL; 
                 this.#table = document.createElement('table');
                 this.#targetPlace = document.querySelector(`${this.#config.parent}`);
+                this.#targetPlace.style.overflowX = 'auto';
                 this.#head = this.#createHeadTable();
                 this.#table.appendChild(this.#head);
                 // fetch data and make body and add table to DOM
@@ -107,15 +109,14 @@ class Table {
         }
 
         // decomposition:
-        // todo винести створення з боді та хеду створення елементів для додавання (інпутів, маркер - hasInputConfig)
 
         #createBodyTable() {
                 let body = document.createElement('tbody');
                 let rowCount = 0;
                 let itemsName = this.#config.apiURL.split('/');
-                if (this.#hasInputConfig()) {// if hasInputConfig
-                        let inputRow = this.#createInputRow(itemsName);
-                        body.appendChild(inputRow);
+                if (this.#hasInputConfig()) {
+                        this.#inputRow = this.#createInputRow(itemsName);
+                        body.appendChild(this.#inputRow);
                 }
                 for (let item of this.#data){
                         let id = item[0];
@@ -135,7 +136,7 @@ class Table {
                                 bodyRow.appendChild(bodyCell);
                         }
                         // UI btnCell (change and del)
-                        if (this.#hasInputConfig()) {// if hasInputConfig
+                        if (this.#hasInputConfig()) {
                                 let btnCell = this.#createBtnCell(itemsName, id, rowCount);
                                 bodyRow.appendChild(btnCell);
                         }
@@ -143,7 +144,7 @@ class Table {
                 }
                 return body;
         }
-        #createInputRow(itemsName, id = false) {//todo id == isEdit refactor (remove isEdit and replace it to id)
+        #createInputRow(itemsName, id = false) {
                 let addItemForm = document.createElement('form');
                 addItemForm.setAttribute('id', `${ id ? `${id}editItemForm` : 'addItemForm' }`);
                 let inputRow = document.createElement('tr');
@@ -200,14 +201,14 @@ class Table {
                 addBtn.setAttribute('type', 'submit');
                 addBtn.setAttribute('form', `${ id ? `${id}editItemForm` : 'addItemForm'}`);
                 addBtn.setAttribute('name', `${ id ? 'edit' : 'add'}`);
-                //let addBtnItemName = `${itemsName[itemsName.length-1].slice(0,-1)}`;
-                //addBtn.innerHTML = `${ id ? 'edit' : 'add' } new ${addBtnItemName}`;
+                let addBtnItemName = `${itemsName[itemsName.length-1].slice(0,-1)}`;
+                addBtn.innerHTML = `${ id ? 'edit' : 'add' } new ${addBtnItemName}`;
                 addItemForm.onsubmit = (e) => {
                         e.preventDefault();
                         // TODO validate
+                        alert();
                         const formInputs = Array.from(addItemForm.elements);
                         const data = formInputs.reduce(catchInputs, {});
-                        console.log(data);
                         this.#changeData(id, JSON.stringify(data));
                 }
                 addNewBtnCell.appendChild(addBtn);
@@ -252,21 +253,20 @@ class Table {
                 let delBtn = document.createElement('button');
                 let rowName = `${itemsName[itemsName.length-1].slice(0,-1)}`;
                 delBtn.setAttribute('name', 'del');
-                delBtn.innerHTML = '-';//`delete ${rowName}`; TODO
+                delBtn.innerHTML = `delete ${rowName}`;
                 let changeBtn = document.createElement('button');
                 changeBtn.setAttribute('name', 'edit');
-                changeBtn.innerHTML = '*';//`change ${rowName}`; TODO
+                changeBtn.innerHTML = `change ${rowName}`;
                 delBtn.addEventListener('click', () => {this.#changeData(id, false)});
                 changeBtn.addEventListener('click', () => {this.#changeRowToInput(id, rowCount, itemsName)});
                 btnCell.appendChild(delBtn);
                 btnCell.appendChild(changeBtn);
                 return btnCell;
-                // add row to body
         }
         #changeRowToInput(id, rowCount, itemsName){// TODO name --> replaceToInputRow
-                const inputRow = this.#createInputRow(itemsName, id);
+                const changeRow = this.#createInputRow(itemsName, id);
                 let replaceTarget = this.#table.rows[rowCount + 1];
-                let replacement = replaceTarget.parentElement.replaceChild(inputRow, replaceTarget);
+                let replacement = replaceTarget.parentElement.replaceChild(changeRow, replaceTarget);
         }
         #createHeadTable() {
                 let head = document.createElement('thead');
@@ -280,23 +280,26 @@ class Table {
                         this.#constructHeadRow(headRow, headElement);
                 }
                 if (this.#hasInputConfig()) {// if hasInputConfig add addButton
-                        let changeTitle = document.createElement('th');
-                        changeTitle.innerHTML = `change ${this.#config.apiURL.split('/')[this.#config.apiURL.split('/').length-1]}`;
-                        let addNewItem = document.createElement('button');
-                        addNewItem.innerText = 'add';
-                        addNewItem.addEventListener('click', () => {
-                                let inputRow = document.querySelector('');
-                                if (inputRow.classList.contains('hidden')) {
-                                        inputRow.classList.remove('hidden');
-                                } else {
-                                        inputRow.classList.add('hidden');
-                                }
-                        });
-                        changeTitle.appendChild(addNewItem);
-                        headRow.appendChild(changeTitle);
+                        let addingBtnCell = this.#createInputHead(); 
+                        headRow.appendChild(addingBtnCell);
                 }
                 head.appendChild(headRow);
                 return head;
+        }
+        #createInputHead() {
+                const addingBtnCell = document.createElement('th');
+                        addingBtnCell.innerHTML = `change ${this.#config.apiURL.split('/')[this.#config.apiURL.split('/').length-1]}`;
+                        let addNewItem = document.createElement('button');
+                        addNewItem.innerText = 'add';
+                        addNewItem.addEventListener('click', () => {
+                                if (this.#inputRow.classList.contains('hidden')) {
+                                        this.#inputRow.classList.remove('hidden');
+                                } else {
+                                        this.#inputRow.classList.add('hidden');
+                                }
+                        });
+                        addingBtnCell.appendChild(addNewItem);
+                return addingBtnCell;
         }
         #hasInputConfig() {
                 return this.#config.columns[0].input;
