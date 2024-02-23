@@ -27,7 +27,9 @@ class Table {
         #addTableBody(data) {
                 if(data !== undefined) {
                         this.#data = data;
-                        this.#isSorted ? this.#sortData_updateBody(this.#sortedID, this.#isSortDecrese) : this.#updateBody();
+                        this.#isSorted ? 
+                                this.#sortData_updateBody(this.#sortedID, this.#isSortDecrese) 
+                                : this.#updateBody();
                 } else if(this.#config.apiurl !== undefined) {
                         let datasource = this.#config.apiurl;
                         fetch(datasource).then(response => {
@@ -38,7 +40,9 @@ class Table {
                                 }
                         }).then( (data) => { 
                                 this.#data = Object.entries(data.data);
-                                this.#isSorted ? this.#sortData_updateBody(this.#sortedID, this.#isSortDecrese) : this.#updateBody();
+                                this.#isSorted ? 
+                                        this.#sortData_updateBody(this.#sortedID, this.#isSortDecrese) 
+                                        : this.#updateBody();
                         }).catch(error => {
                                 console.log(error);
                         });
@@ -60,12 +64,18 @@ class Table {
         #sortData_updateBody(id, isDecrese) {
                 let decrement = isDecrese ? -1 : 1;
                 this.#data.sort( (item1, item2) => {
-                        if ( ( (id instanceof Function) ? id(item1[1]) : item1[1][id] ).toString().toLowerCase() > ( (id instanceof Function) ? id(item2[1]) : item2[1][id]).toString().toLowerCase()) {return -1 * decrement;}
+                        if ( ( (id instanceof Function) ? 
+                                id(item1[1]) 
+                                : item1[1][id] ).toString().toLowerCase() 
+                                > ( (id instanceof Function) ? 
+                                        id(item2[1]) 
+                                        : item2[1][id]).toString().toLowerCase() ) {
+                                return -1 * decrement;
+                        }
                         if ( ( (id instanceof Function) ? id(item1[1]) : item1[1][id] ).toString().toLowerCase() < ( (id instanceof Function) ? id(item2[1]) : item2[1][id]).toString().toLowerCase()) {return 1 * decrement;}
                         return 0;
                 });
-                //memoization for re-paint on change data
-                //
+                //memoization for re-paint when data was changed
                 this.#isSorted = true;
                 this.#sortedID = id;
                 this.#isSortDecrese = isDecrese;
@@ -75,18 +85,17 @@ class Table {
         // del, add, change
         #changeData(itemID, itemData){ 
                 let request = this.#makeRequest(itemID, itemData);
-                console.log(request);
                 fetch(request).then( (response) => {
-                        if(response.ok) {
-                                console.log(response);
-                                alert('data is submitted');
-                        } else {
+                        if(!response.ok) {
                                 alert('request not success;');
                         }
                 }
-                ).then( () => {this.#addTableBody();}).catch( (err) => {console.log(err);});
+                ).then( () => {
+                        this.#addTableBody();
+                }).catch( (err) => {
+                        console.log(err);
+                });
         }
-        // TODO you can cut this in length: uri = itemID ? uri+id : uri; method - do the same or switch-case; body in delet - relax;
         #makeRequest(itemID, itemData) {
                 let uri = `${this.#config.apiURL}`;
                 if (!itemID) {// edit
@@ -114,10 +123,12 @@ class Table {
                 let body = document.createElement('tbody');
                 let rowCount = 0;
                 let itemsName = this.#config.apiURL.split('/');
-                if (this.#hasInputConfig()) {
+                //create input row if the table supports data changing
+                if (this.#isTableEditable()) {
                         this.#inputRow = this.#createInputRow(itemsName);
                         body.appendChild(this.#inputRow);
                 }
+                //making rows 
                 for (let item of this.#data){
                         let id = item[0];
                         let idData = item[1];
@@ -125,6 +136,7 @@ class Table {
                         let bodyCellRowNumber = document.createElement('td');
                         bodyCellRowNumber.innerHTML = `${++rowCount}`;
                         bodyRow.appendChild(bodyCellRowNumber);
+                        // making cells
                         for (let cellConfig of this.#config.columns) {
                                 let bodyCell = document.createElement('td');
                                 bodyCell.innerHTML = (
@@ -135,8 +147,8 @@ class Table {
                                         : '-';
                                 bodyRow.appendChild(bodyCell);
                         }
-                        // UI btnCell (change and del)
-                        if (this.#hasInputConfig()) {
+                        // adding UI btnCell (change and del)
+                        if (this.#isTableEditable()) {
                                 let btnCell = this.#createBtnCell(itemsName, id, rowCount);
                                 bodyRow.appendChild(btnCell);
                         }
@@ -144,6 +156,9 @@ class Table {
                 }
                 return body;
         }
+        /*
+         * return input row to add or change data in row
+         */
         #createInputRow(itemsName, id = false) {
                 let addItemForm = document.createElement('form');
                 addItemForm.setAttribute('id', `${ id ? `${id}editItemForm` : 'addItemForm' }`);
@@ -163,6 +178,9 @@ class Table {
                 inputRow.appendChild(btnCell);
                 return inputRow;
         }
+        /*
+         * return cell with inputs
+         */
         #createInputCell(inputConfig, id) {
                 let inputCell = document.createElement('td');
                 let subInputs = inputConfig.input.length ? inputConfig.input.length : 1;
@@ -176,12 +194,13 @@ class Table {
                         if (type === 'color' && !id) {
                                 input.value =  '#' + Math.floor(Math.random()*16777215).toString(16);
                         }
-                        if (id) {// if it is the Edit Row than set values to inputs from item data
+                        if (id) {// if id is present -> set values to inputs from item data
                                 let itemData = this.#data.find( (item) => item[0] === id)[1];
                                 input.value = itemData[attributes.name];
                         }
+                        // creates diff. forms for each row
                         input.setAttribute('form', `${ id ? `${id}editItemForm` : 'addItemForm' }`);
-                        input.setAttribute('required', true);
+                        //input.setAttribute('required', true); // to built-in form validation uncomment
                         this.#setPlaceholder(input, attributes, inputConfig);
                         for ( let attribute of Object.keys(attributes)) {
                                 if (attribute === 'options') continue;
@@ -195,24 +214,45 @@ class Table {
                 }
                 return inputCell;
         }
+        /*
+         * return change and add btn cell
+         */
         #createBtnInputCell(addItemForm, itemsName, id = false) {
                 let addNewBtnCell = document.createElement('td');
                 let addBtn = document.createElement('button');
                 addBtn.setAttribute('type', 'submit');
                 addBtn.setAttribute('form', `${ id ? `${id}editItemForm` : 'addItemForm'}`);
-                addBtn.setAttribute('name', `${ id ? 'edit' : 'add'}`);
+                addBtn.setAttribute('name', `${ id ? 'edit' : 'add new'}`);
                 let addBtnItemName = `${itemsName[itemsName.length-1].slice(0,-1)}`;
-                addBtn.innerHTML = `${ id ? 'edit' : 'add' } new ${addBtnItemName}`;
+                addBtn.innerHTML = `${ id ? 'edit' : 'add new' } ${addBtnItemName}`;
                 addItemForm.onsubmit = (e) => {
                         e.preventDefault();
-                        // TODO validate
-                        alert();
                         const formInputs = Array.from(addItemForm.elements);
-                        const data = formInputs.reduce(catchInputs, {});
-                        this.#changeData(id, JSON.stringify(data));
+                        // validation
+                        let notValide = 0;
+                        for (let input of formInputs) {
+                                input.style.borderColor = 'black';
+                                if (input.value === '' && input.type !== 'submit' 
+                                        || isCurrency(input) ) {
+                                        input.style.borderColor = 'red';
+                                        notValide++;
+                                }
+                        }
+                        if (!notValide) {
+                                const data = formInputs.reduce(catchInputs, {});
+                                this.#changeData(id, JSON.stringify(data));
+                        }
                 }
                 addNewBtnCell.appendChild(addBtn);
                 return addNewBtnCell;
+
+
+                /*
+                 * is input a currency choose menu
+                 */
+                function isCurrency (input) {
+                        return input.name === 'currency' && input.value === 'choose currency';
+                }
 
                 /*
                  * function for reduce
@@ -233,10 +273,13 @@ class Table {
                         input.setAttribute('placeholder', inputConfig.title);
                 }
         }
+        /*
+         * return menu for 'select' input type
+         */
         #selectInput(attributes, id) {
                 let select = document.createElement('select');
                 let optionDefault = document.createElement('option');
-                optionDefault.setAttribute('value', `choose ${attributes.name}`);// todo in validation this is a not valid value
+                optionDefault.setAttribute('value', `choose ${attributes.name}`);
                 optionDefault.innerHTML = `choose ${attributes.name}`;
                 select.appendChild(optionDefault);
                 for (let optionItem of attributes.options) {
@@ -247,6 +290,9 @@ class Table {
                 }
                 return select;
         }
+        /*
+         * return cell with edit and del btns
+         */
         #createBtnCell(itemsName, id, rowCount) {
                 let btnCell = document.createElement('td');
                 btnCell.setAttribute('class', 'changeUI');
@@ -258,16 +304,23 @@ class Table {
                 changeBtn.setAttribute('name', 'edit');
                 changeBtn.innerHTML = `change ${rowName}`;
                 delBtn.addEventListener('click', () => {this.#changeData(id, false)});
-                changeBtn.addEventListener('click', () => {this.#changeRowToInput(id, rowCount, itemsName)});
+                changeBtn.addEventListener('click', () => {
+                        this.#replaceByInputRow(id, rowCount, itemsName)});
                 btnCell.appendChild(delBtn);
                 btnCell.appendChild(changeBtn);
                 return btnCell;
         }
-        #changeRowToInput(id, rowCount, itemsName){// TODO name --> replaceToInputRow
+        /*
+         * replace row with inputRow to change the row data
+         */
+        #replaceByInputRow(id, rowCount, itemsName){
                 const changeRow = this.#createInputRow(itemsName, id);
                 let replaceTarget = this.#table.rows[rowCount + 1];
                 let replacement = replaceTarget.parentElement.replaceChild(changeRow, replaceTarget);
         }
+        /*
+         * return table's head
+         */
         #createHeadTable() {
                 let head = document.createElement('thead');
                 let headRow = document.createElement('tr');
@@ -279,31 +332,41 @@ class Table {
                 for (let headElement of this.#config.columns) {
                         this.#constructHeadRow(headRow, headElement);
                 }
-                if (this.#hasInputConfig()) {// if hasInputConfig add addButton
+                if (this.#isTableEditable()) {// if isTableEditable add addButton
                         let addingBtnCell = this.#createInputHead(); 
                         headRow.appendChild(addingBtnCell);
                 }
                 head.appendChild(headRow);
                 return head;
         }
+        /*
+         * return cell with add new item btn
+         */
         #createInputHead() {
                 const addingBtnCell = document.createElement('th');
-                        addingBtnCell.innerHTML = `change ${this.#config.apiURL.split('/')[this.#config.apiURL.split('/').length-1]}`;
-                        let addNewItem = document.createElement('button');
-                        addNewItem.innerText = 'add';
-                        addNewItem.addEventListener('click', () => {
-                                if (this.#inputRow.classList.contains('hidden')) {
-                                        this.#inputRow.classList.remove('hidden');
-                                } else {
-                                        this.#inputRow.classList.add('hidden');
-                                }
-                        });
-                        addingBtnCell.appendChild(addNewItem);
+                let itemName = this.#config.apiURL.split('/')[this.#config.apiURL.split('/').length-1];
+                addingBtnCell.innerHTML = `change ${itemName}`;
+                let addNewItem = document.createElement('button');
+                addNewItem.innerText = `add new ${itemName}`;
+                addNewItem.addEventListener('click', () => {
+                        if (this.#inputRow.classList.contains('hidden')) {
+                                this.#inputRow.classList.remove('hidden');
+                        } else {
+                                this.#inputRow.classList.add('hidden');
+                        }
+                });
+                addingBtnCell.appendChild(addNewItem);
                 return addingBtnCell;
         }
-        #hasInputConfig() {
+        /*
+         * return boolean is Table editable
+         */
+        #isTableEditable() {
                 return this.#config.columns[0].input;
         }
+        /*
+         * construct head of the Table
+         */
         #constructHeadRow(headRow, headElement) {
                 let headCell = document.createElement('th');
                 let cellWrapper = document.createElement('div');
@@ -313,10 +376,14 @@ class Table {
                 let buttonWrapper = document.createElement('div');
                 let increseBtn = document.createElement('div');
                 increseBtn.setAttribute('class', 'increse');
-                increseBtn.addEventListener('click', () => {this.#sortData_updateBody(headElement.value, false)});
+                increseBtn.addEventListener('click', () => {
+                        this.#sortData_updateBody(headElement.value, false)
+                });
                 let decreseBtn = document.createElement('div');
                 decreseBtn.setAttribute('class', 'decrese');
-                decreseBtn.addEventListener('click', () => {this.#sortData_updateBody(headElement.value, true)});
+                decreseBtn.addEventListener('click', () => {
+                        this.#sortData_updateBody(headElement.value, true)
+                });
                 buttonWrapper.appendChild(decreseBtn);
                 buttonWrapper.appendChild(increseBtn);
                 cellWrapper.appendChild(buttonWrapper);
@@ -324,9 +391,6 @@ class Table {
                 headRow.appendChild(headCell);
         }
 }
-
-
-
 
 const configProductsInput = {
         parent: '#productsTable',
@@ -377,6 +441,7 @@ const configUsers = {
         apiURL: 'https://mock-api.shpp.me/dkolomytsev/users'
         //apiURL: 'http://localhost:3000/users'
 };
+
 function getAge(userBirthday) {
         const currentDate = new Date();
         let currentYear = currentDate.getFullYear();
@@ -384,11 +449,10 @@ function getAge(userBirthday) {
         return currentYear - birthday;
 }
 
-
 const table1 = new Table(configUsers);
 //const table2 = new Table(configProducts);
 const table3 = new Table(configProductsInput);
-
+setCSS();
 
 /*
  * load CSS file
@@ -402,7 +466,3 @@ function setCSS() {
         head.appendChild(cssLink);
 }
 
-
-//DataTable(config1, users);
-//DataTable(config2 );
-setCSS();
