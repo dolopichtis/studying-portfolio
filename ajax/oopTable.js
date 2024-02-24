@@ -5,6 +5,7 @@ class Table {
         #table;
         #head;
         #body;
+        #apiUrl;
         #targetPlace;// were to place on DOM
         #isBody;// for re-paint
         #isSorted;// for re-paint table "as it was" after data manipulation (del, add, change);
@@ -14,7 +15,7 @@ class Table {
                 this.#config = config;
                 this.isBody = false;
                 this.isSorted = false;
-                this.#config.apiurl = config.apiURL; 
+                this.#apiUrl = config.apiURL; 
                 this.#table = document.createElement('table');
                 this.#targetPlace = document.querySelector(`${this.#config.parent}`);
                 this.#targetPlace.style.overflowX = 'auto';
@@ -30,8 +31,8 @@ class Table {
                         this.#isSorted ? 
                                 this.#sortData_updateBody(this.#sortedID, this.#isSortDecrese) 
                                 : this.#updateBody();
-                } else if(this.#config.apiurl !== undefined) {
-                        let datasource = this.#config.apiurl;
+                } else if(this.#apiUrl !== undefined) {
+                        let datasource = this.#apiUrl;
                         fetch(datasource).then(response => {
                                 if(response.ok){ 
                                         return response.json();
@@ -97,7 +98,7 @@ class Table {
                 });
         }
         #makeRequest(itemID, itemData) {
-                let uri = `${this.#config.apiURL}`;
+                let uri = `${this.#apiUrl}`;
                 if (!itemID) {// edit
                         return new Request(uri, {
                                 method: 'POST',
@@ -122,7 +123,7 @@ class Table {
         #createBodyTable() {
                 let body = document.createElement('tbody');
                 let rowCount = 0;
-                let itemsName = this.#config.apiURL.split('/');
+                let itemsName = this.#apiUrl.split('/');
                 //create input row if the table supports data changing
                 if (this.#isTableEditable()) {
                         this.#inputRow = this.#createInputRow(itemsName);
@@ -344,16 +345,12 @@ class Table {
          */
         #createInputHead() {
                 const addingBtnCell = document.createElement('th');
-                let itemName = this.#config.apiURL.split('/')[this.#config.apiURL.split('/').length-1];
+                let itemName = this.#apiUrl.split('/')[this.#apiUrl.split('/').length-1];
                 addingBtnCell.innerHTML = `change ${itemName}`;
                 let addNewItem = document.createElement('button');
                 addNewItem.innerText = `add new ${itemName}`;
                 addNewItem.addEventListener('click', () => {
-                        if (this.#inputRow.classList.contains('hidden')) {
-                                this.#inputRow.classList.remove('hidden');
-                        } else {
-                                this.#inputRow.classList.add('hidden');
-                        }
+                        this.#inputRow.classList.toggle('hidden');
                 });
                 addingBtnCell.appendChild(addNewItem);
                 return addingBtnCell;
