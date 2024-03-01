@@ -67,10 +67,10 @@ tr > th:hover .hight {
         border-top-color: gold;
 }
 
-.decrese:hover {
+.decrease:hover {
         border-bottom-color: red!important;
 }
-.increse:hover {
+.increase:hover {
         border-top-color: red !important;
 }
 thead th {
@@ -96,17 +96,17 @@ tbody tr:nth-child(odd) {
 tbody tr:nth-child(even) {
         background-color: #eee;
 }
-.decrese, .increse{
+.decrease, .increase{
         margin: 2px;
         width: 0px;
         border: 7px solid white;
         border-left-color: transparent;
         border-right-color: transparent;
 }
-.increse{
+.increase{
         border-bottom-color: transparent;
 }
-.decrese{
+.decrease{
         border-top-color: transparent;
 }
 tbody img {

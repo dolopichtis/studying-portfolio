@@ -1,12 +1,13 @@
+//global object _state_ {isSorted, sortId, sortDirrection(isDecrease)}
+//getData -> drawTable;
+//if sortBtn pressed -> change _state_ with callbackFunction -> repaint Body
+//if changeDataBtn pressed -> fetchData, see in _state_ -> repaint Body
+//
 //функціональний стиль: get the data
-//(closure: extract config, extract data) 
 //намалювати таблицю, відсортувати таблицю, 
 //
 //get/add/change/delete data (це один метод, з різними параметрами)
 //
-//получається, що в функціональному стилі декомпозиція реалізується в самих HOF методах (*о*)
-//
-//extract dif. form of data: configData and itemData (as array id:{item data key:value})
 //configData - > create Head and InputRow
 //itemData -> create Body
 //function for add inputs realized with insert methods (add cell with btns to corresponding row)
@@ -33,26 +34,64 @@ function getData(config, data) {
         return fetch(dataSource).then(response => {
                 if(response.ok) {
                         return response.json();
-                }else{
+                } else {
                         throw new Error ('some problems fetching data');
                 }
         }).catch( err => {
                 console.log(err);
         });
 }
-function drawTable(data, config) {
+// isSorted - boolean, for stay sorted on dataChange; 
+// sortId - column of sortion; 
+// sortDirrection - increse/dicrease;
+function drawTable(data, config, isSorted, sortId, sortIsDecrease) {
+        const tableState = {
+                isSorted: false,
+                sortId: '',
+                sortIsDecrease: false
+        };
+        let dataArray = Object.entries(data.data);
         const table = document.createElement('TABLE');
         const head = config.columns.reduce(constructHead, document.createElement('thead'));
         table.appendChild(head);
-        const body = Object.entries(data.data).reduce(constructBody, document.createElement('tbody'));
+        const body = dataArray.reduce(constructBody, document.createElement('tbody'));
         table.appendChild(body);
         return table;
-        
-        //closure:
+
+        //decomposition
+        function setState(state, isSorted, sortId, sortIsDecrease) {
+                state.isSorted = isSorted;
+                state.sortId = sortId;
+                state.sortIsDecrease = sortIsDecrease;
+        }
+        function sortData(data, sortId, sortIsDecrease) {
+                let newData = data.sort(sortData);
+                return newData;
+                //decomposition
+                function sortData(prev, next) {
+                        let decrement = sortIsDecrease ? -1 : 1;
+                        if (getData(prev) > getData(next)) return -1 * decrement;
+                        if (getData(prev) < getData(next)) return 1 * decrement;
+                        //decomposition
+                        function getData(data) {
+                                let extractedData = data[1];
+                                return ((sortId instanceof Function ?
+                                        sortId(extractedData)
+                                        : extractedData[sortId]).toString().toLowerCase());
+                        }
+                }
+        }
+        function updateBody(data) {
+                const body = data.reduce(constructBody, document.createElement('tbody'));
+                let domTable = document.querySelector(`${config.parent}>table`);
+                let domTbody = document.querySelector(`${config.parent}>table>tbody`);
+                domTbody.remove();
+                domTable.appendChild(body);
+        }
         function constructBody(body, currentRowData, currentRowNumber) {
                 //KEY: currentRowData[0] = id; currentRowData[1] = dataObject
                 const row = body.insertRow();
-                config.columns.forEach(constructCell);
+                config.columns.forEach(constructCell);// TODO is it pure function? is config a 'side effect'?
                 return body;
                 //closure:
                 function constructCell(element) {
@@ -67,10 +106,33 @@ function drawTable(data, config) {
         }
         function constructHead(head, rowConfig, currentCellNumber) {
                 const headCell = document.createElement('th');
-                headCell.innerHTML = rowConfig.title;
-                // rowConfig.value;// for sort and changeData()
+                const cellWrap = document.createElement('div');
+                const cellTitle = document.createElement('p');
+                cellTitle.innerHTML = rowConfig.title;
+                cellWrap.appendChild(cellTitle);
+                const btnWrap = document.createElement('div');
+                const increaseBtn = document.createElement('div');
+                increaseBtn.setAttribute('class', 'increase');
+                increaseBtn.addEventListener('click', () => {
+                        sortTable(false);
+                })
+                const decreaseBtn = document.createElement('div');
+                decreaseBtn.setAttribute('class', 'decrease');
+                decreaseBtn.addEventListener('click', () => {
+                        sortTable(true);
+                })
+                btnWrap.appendChild(decreaseBtn);
+                btnWrap.appendChild(increaseBtn);
+                cellWrap.appendChild(btnWrap);
+                headCell.appendChild(cellWrap);
                 head.appendChild(headCell);
                 return head;
+                //decomposition:
+                function sortTable(isDecrease) {
+                        setState(tableState, true, rowConfig.value, isDecrease);
+                        let data = sortData(dataArray, rowConfig.value, isDecrease);
+                        updateBody(data);
+                }
         }
 }
 
@@ -101,6 +163,9 @@ getData(configUsers).then( (data) => {
         const table = drawTable(data, configUsers);
         let target = document.querySelector(configUsers.parent);
         target.appendChild(table);
+        // catch call to sortTable() isSorted => true, sortId, sortIsDecrease;
+        // catch call to changeData(isSorted...);
+        // return new Promise(getChangedData) .then data => drawTable(data, isSorted, sortId, sortIsDicrease);
 });
 /*
  * load CSS file

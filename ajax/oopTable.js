@@ -11,7 +11,7 @@ class Table {
         #hasBody;// for re-paint
         #isSorted;// for re-paint table "as it was" after data manipulation (del, add, change);
         #sortedID;// id of column ;) for that re-paint
-        #isSortDecrese;// sort dirrection
+        #isSortDecrease;// sort dirrection
         constructor(config, data) {
                 this.#config = config;
                 this.hasBody = false;
@@ -31,7 +31,7 @@ class Table {
                 if(data !== undefined) {
                         this.#data = data;
                         this.#isSorted ? 
-                                this.#sortData_updateBody(this.#sortedID, this.#isSortDecrese) 
+                                this.#sortData_updateBody(this.#sortedID, this.#isSortDecrease) 
                                 : this.#updateBody();
                 } else if(this.#apiUrl !== undefined) {
                         let datasource = this.#apiUrl;
@@ -44,7 +44,7 @@ class Table {
                         }).then( (data) => { 
                                 this.#data = Object.entries(data.data);
                                 this.#isSorted ? 
-                                        this.#sortData_updateBody(this.#sortedID, this.#isSortDecrese) 
+                                        this.#sortData_updateBody(this.#sortedID, this.#isSortDecrease) 
                                         : this.#updateBody();
                         }).catch(error => {
                                 console.log(error);
@@ -64,8 +64,8 @@ class Table {
                 }
                 this.#hasBody = true;
         }
-        #sortData_updateBody(id, isDecrese) {
-                let decrement = isDecrese ? -1 : 1;
+        #sortData_updateBody(id, isDecrease) {
+                let decrement = isDecrease ? -1 : 1;
                 this.#data.sort( (item1, item2) => {
                         if ( ( (id instanceof Function) ? 
                                 id(item1[1]) 
@@ -81,7 +81,7 @@ class Table {
                 //memoization for re-paint when data was changed
                 this.#isSorted = true;
                 this.#sortedID = id;
-                this.#isSortDecrese = isDecrese;
+                this.#isSortDecrease = isDecrease;
                 //call re-paint
                 this.#updateBody();
         }
@@ -150,6 +150,7 @@ class Table {
                                 bodyRow.appendChild(bodyCell);
                         }
                         // adding UI btnCell (change and del)
+                        // create boolean on/off switch-setter to on/off editables of the Table;
                         if (this.#isTableEditable()) {
                                 let btnCell = this.#createBtnCell(id, rowCount);
                                 bodyRow.appendChild(btnCell);
@@ -373,12 +374,12 @@ class Table {
                 cellWrapper.appendChild(cellTitle);
                 let buttonWrapper = document.createElement('div');
                 let increseBtn = document.createElement('div');
-                increseBtn.setAttribute('class', 'increse');
+                increseBtn.setAttribute('class', 'increase');
                 increseBtn.addEventListener('click', () => {
                         this.#sortData_updateBody(headElement.value, false)
                 });
                 let decreseBtn = document.createElement('div');
-                decreseBtn.setAttribute('class', 'decrese');
+                decreseBtn.setAttribute('class', 'decrease');
                 decreseBtn.addEventListener('click', () => {
                         this.#sortData_updateBody(headElement.value, true)
                 });
